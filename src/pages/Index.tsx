@@ -15,7 +15,7 @@ const Index = () => {
   return (
     <SiteLayout>
       <Helmet>
-        <title>OrangeMart – Trending & Popular Products</title>
+        <title>RangoStore – Trending & Popular Products</title>
         <meta name="description" content="Shop trending products across Arts, Electronics, Furniture, and Crops. Orange-themed marketplace with great deals." />
         <link rel="canonical" href="/" />
       </Helmet>

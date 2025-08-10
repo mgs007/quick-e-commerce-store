@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { ShoppingCart, Heart } from "lucide-react";
 import { useStore } from "@/context/StoreContext";
 import { Input } from "@/components/ui/input";
+import { SITE } from "@/config/site";
 
 const Header = () => {
   const { cartCount } = useStore();
@@ -14,7 +15,7 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         <NavLink to="/" className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-md bg-gradient-primary shadow-elevate" />
-          <span className="font-semibold text-lg">OrangeMart</span>
+          <span className="font-semibold text-lg">{SITE.name}</span>
         </NavLink>
         <nav className="hidden md:flex items-center gap-6">
           <NavLink to="/category/arts" className={navCls}>Arts</NavLink>

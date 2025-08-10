@@ -32,7 +32,7 @@ const Dashboard = () => {
   return (
     <SiteLayout>
       <Helmet>
-        <title>Admin Dashboard – OrangeMart</title>
+        <title>Admin Dashboard – RangoStore</title>
         <meta name="description" content="Manage products and view orders." />
         <link rel="canonical" href="/admin" />
       </Helmet>

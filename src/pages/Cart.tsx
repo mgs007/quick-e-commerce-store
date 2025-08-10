@@ -18,7 +18,7 @@ const CartPage = () => {
   return (
     <SiteLayout>
       <Helmet>
-        <title>Your Cart – OrangeMart</title>
+        <title>Your Cart – RangoStore</title>
         <meta name="description" content="Review items in your cart and proceed to order." />
         <link rel="canonical" href="/cart" />
       </Helmet>

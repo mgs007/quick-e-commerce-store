@@ -11,7 +11,7 @@ const FavoritesPage = () => {
   return (
     <SiteLayout>
       <Helmet>
-        <title>Favorites – OrangeMart</title>
+        <title>Favorites – RangoStore</title>
         <meta name="description" content="Your favorite saved products." />
         <link rel="canonical" href="/favorites" />
       </Helmet>

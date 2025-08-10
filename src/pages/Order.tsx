@@ -27,7 +27,7 @@ const OrderPage = () => {
   return (
     <SiteLayout>
       <Helmet>
-        <title>{`Order – ${product.name} | OrangeMart`}</title>
+        <title>{`Order – ${product.name} | RangoStore`}</title>
         <meta name="description" content={`Order ${product.name} for $${product.price}. No login required.`} />
         <link rel="canonical" href={`/order/${product.id}`} />
       </Helmet>

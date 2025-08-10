@@ -1,3 +1,5 @@
+import { SITE } from "@/config/site";
+
 const Footer = () => {
   return (
     <footer className="border-t mt-16">
@@ -5,7 +7,7 @@ const Footer = () => {
         <div>
           <div className="flex items-center gap-2 mb-2">
             <div className="h-6 w-6 rounded-md bg-gradient-primary" />
-            <span className="font-semibold">OrangeMart</span>
+            <span className="font-semibold">{SITE.name}</span>
           </div>
           <p className="text-sm text-muted-foreground">Your orange‑themed marketplace for trending products.</p>
         </div>
@@ -20,12 +22,13 @@ const Footer = () => {
         </div>
         <div>
           <h4 className="font-medium mb-2">Get in touch</h4>
-          <p className="text-sm text-muted-foreground">Promotions and offers straight to your inbox.</p>
+          <p className="text-sm text-muted-foreground">Office: {SITE.contact.address}</p>
+          <p className="text-sm text-muted-foreground">Phone: <a className="hover:text-foreground" href={`tel:${SITE.contact.phone}`}>{SITE.contact.phone}</a></p>
         </div>
       </div>
       <div className="border-t">
         <div className="max-w-7xl mx-auto px-4 py-4 text-xs text-muted-foreground flex items-center justify-between">
-          <span>© {new Date().getFullYear()} OrangeMart. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} {SITE.name}. All rights reserved.</span>
           <a className="hover:text-foreground" href="/admin/login">Admin</a>
         </div>
       </div>

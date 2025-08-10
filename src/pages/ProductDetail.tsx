@@ -25,7 +25,7 @@ const ProductDetail = () => {
   return (
     <SiteLayout>
       <Helmet>
-        <title>{`OrangeMart – ${product.name}`}</title>
+        <title>{`RangoStore – ${product.name}`}</title>
         <meta name="description" content={product.description} />
         <link rel="canonical" href={`/product/${product.id}`} />
       </Helmet>
