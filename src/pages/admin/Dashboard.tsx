@@ -13,7 +13,7 @@ const Dashboard = () => {
   // Product form
   const [name, setName] = useState("");
   const [price, setPrice] = useState<number | "">("");
-  const [category, setCategory] = useState("electronics");
+  const [category, setCategory] = useState("decorations");
   const [description, setDescription] = useState("");
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const Dashboard = () => {
   return (
     <SiteLayout>
       <Helmet>
-        <title>Admin Dashboard – RangoStore</title>
+        <title>Admin Dashboard – RangoDeco</title>
         <meta name="description" content="Manage products and view orders." />
         <link rel="canonical" href="/admin" />
       </Helmet>
@@ -48,7 +48,7 @@ const Dashboard = () => {
               <div key={o.id} className="border rounded-lg p-4 flex items-center justify-between">
                 <div>
                   <div className="font-medium">{o.productName} – ${o.productPrice.toFixed(2)}</div>
-                  <div className="text-sm text-muted-foreground">{o.customerName} · {o.phone} · {o.location}</div>
+                  <div className="text-sm text-muted-foreground">{[o.customerName, o.phone, o.location].filter(Boolean).join(' · ')}</div>
                   {o.preferredTime && (
                     <div className="text-xs text-muted-foreground">Preferred: {o.preferredTime}</div>
                   )}
@@ -84,7 +84,7 @@ const Dashboard = () => {
           >
             <Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
             <Input placeholder="Price" type="number" min="0" value={price} onChange={(e) => setPrice(e.target.value === '' ? '' : Number(e.target.value))} required />
-            <Input placeholder="Category (arts, electronics, furniture, crops)" value={category} onChange={(e) => setCategory(e.target.value)} />
+            <Input placeholder="Category (arts, decorations, furniture)" value={category} onChange={(e) => setCategory(e.target.value)} />
             <Input placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
             <div className="md:col-span-2"><Button type="submit">Save Product</Button></div>
           </form>

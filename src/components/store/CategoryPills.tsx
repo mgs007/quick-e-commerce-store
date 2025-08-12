@@ -2,9 +2,8 @@ import { NavLink } from "react-router-dom";
 
 const categories = [
   { slug: "arts", label: "Arts" },
-  { slug: "electronics", label: "Electronics" },
+  { slug: "decorations", label: "Decorations" },
   { slug: "furniture", label: "Furniture" },
-  { slug: "crops", label: "Crops" },
 ];
 
 const CategoryPills = () => {

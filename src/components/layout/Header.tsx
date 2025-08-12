@@ -19,9 +19,8 @@ const Header = () => {
         </NavLink>
         <nav className="hidden md:flex items-center gap-6">
           <NavLink to="/category/arts" className={navCls}>Arts</NavLink>
-          <NavLink to="/category/electronics" className={navCls}>Electronics</NavLink>
+          <NavLink to="/category/decorations" className={navCls}>Decorations</NavLink>
           <NavLink to="/category/furniture" className={navCls}>Furniture</NavLink>
-          <NavLink to="/category/crops" className={navCls}>Crops</NavLink>
         </nav>
         <div className="flex items-center gap-3">
           <Input placeholder="Search products" className="hidden md:block w-56" />

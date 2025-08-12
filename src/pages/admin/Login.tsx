@@ -12,8 +12,8 @@ const Login = () => {
   return (
     <SiteLayout>
       <Helmet>
-        <title>Admin Login – RangoStore</title>
-        <meta name="description" content="Secure admin login for RangoStore." />
+        <title>Admin Login – RangoDeco</title>
+        <meta name="description" content="Secure admin login for RangoDeco." />
         <link rel="canonical" href="/admin/login" />
       </Helmet>
 

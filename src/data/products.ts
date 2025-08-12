@@ -1,4 +1,4 @@
-export type Category = "arts" | "electronics" | "furniture" | "crops";
+export type Category = "arts" | "decorations" | "furniture";
 
 export interface Product {
   id: string;
@@ -25,13 +25,13 @@ export const defaultProducts: Product[] = [
     trending: true,
   },
   {
-    id: "p-elec-1",
-    name: "Wireless Earbuds X2",
-    slug: "wireless-earbuds-x2",
-    price: 58,
-    description: "Noise-cancelling earbuds with long-lasting battery.",
+    id: "p-decor-1",
+    name: "Ceramic Vase Duo",
+    slug: "ceramic-vase-duo",
+    price: 45,
+    description: "Minimal ceramic vases for home and office decor.",
     images: ["/placeholder.svg"],
-    category: "electronics",
+    category: "decorations",
     trending: true,
     popular: true,
   },
@@ -46,23 +46,14 @@ export const defaultProducts: Product[] = [
     popular: true,
   },
   {
-    id: "p-crops-1",
-    name: "Organic Honey (1L)",
-    slug: "organic-honey-1l",
-    price: 18,
-    description: "Raw, unfiltered honey sourced from local farms.",
+    id: "p-decor-2",
+    name: "Framed Wall Art Set",
+    slug: "framed-wall-art-set",
+    price: 89,
+    description: "Set of 3 abstract wall art prints with frames.",
     images: ["/placeholder.svg"],
-    category: "crops",
+    category: "decorations",
     trending: true,
-  },
-  {
-    id: "p-elec-2",
-    name: "Smart LED Bulb",
-    slug: "smart-led-bulb",
-    price: 12,
-    description: "Energy-efficient bulb with app-controlled brightness.",
-    images: ["/placeholder.svg"],
-    category: "electronics",
   },
   {
     id: "p-furn-2",
@@ -72,5 +63,14 @@ export const defaultProducts: Product[] = [
     description: "Space-saving desk with cable management.",
     images: ["/placeholder.svg"],
     category: "furniture",
+  },
+  {
+    id: "p-decor-3",
+    name: "Office Desk Organizer",
+    slug: "office-desk-organizer",
+    price: 25,
+    description: "Keeps pens, notes, and accessories tidy.",
+    images: ["/placeholder.svg"],
+    category: "decorations",
   },
 ];

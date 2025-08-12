@@ -27,7 +27,7 @@ const OrderPage = () => {
   return (
     <SiteLayout>
       <Helmet>
-        <title>{`Order – ${product.name} | RangoStore`}</title>
+        <title>{`Order – ${product.name} | RangoDeco`}</title>
         <meta name="description" content={`Order ${product.name} for $${product.price}. No login required.`} />
         <link rel="canonical" href={`/order/${product.id}`} />
       </Helmet>
@@ -42,16 +42,16 @@ const OrderPage = () => {
           </div>
           <form
             className="grid gap-4"
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              createOrder({
+              await createOrder({
                 productId: product.id,
                 productName: product.name,
                 productPrice: product.price,
                 customerName: name,
                 phone,
-                location,
-                preferredTime: time,
+                location: location || undefined,
+                preferredTime: time || undefined,
               });
               toast({ title: "Order placed!", description: "We'll reach out shortly." });
               navigate("/");
@@ -59,7 +59,7 @@ const OrderPage = () => {
           >
             <Input placeholder="Full Name" value={name} onChange={(e) => setName(e.target.value)} required />
             <Input placeholder="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} required />
-            <Input placeholder="Location" value={location} onChange={(e) => setLocation(e.target.value)} required />
+            <Input placeholder="Location (optional)" value={location} onChange={(e) => setLocation(e.target.value)} />
             <Input placeholder="Preferred delivery time (optional)" value={time} onChange={(e) => setTime(e.target.value)} />
             <div className="flex gap-3">
               <Button type="submit">Submit Order</Button>

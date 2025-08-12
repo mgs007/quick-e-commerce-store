@@ -1,5 +1,5 @@
 export const SITE = {
-  name: "RangoStore",
+  name: "RangoDeco",
   contact: {
     address: "53116 Mwanjelwa, Mbeya, Tanzania",
     phone: "+255745704892",

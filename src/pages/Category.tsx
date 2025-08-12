@@ -8,7 +8,7 @@ const CategoryPage = () => {
   const { slug } = useParams<{ slug: any }>();
   const products = getProductsByCategory((slug || "") as any);
 
-  const title = `RangoStore – ${String(slug).charAt(0).toUpperCase() + String(slug).slice(1)} ` + "Products";
+  const title = `RangoDeco – ${String(slug).charAt(0).toUpperCase() + String(slug).slice(1)} Products`;
 
   return (
     <SiteLayout>

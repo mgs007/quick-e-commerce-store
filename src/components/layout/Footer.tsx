@@ -9,15 +9,14 @@ const Footer = () => {
             <div className="h-6 w-6 rounded-md bg-gradient-primary" />
             <span className="font-semibold">{SITE.name}</span>
           </div>
-          <p className="text-sm text-muted-foreground">Your orange‑themed marketplace for trending products.</p>
+          <p className="text-sm text-muted-foreground">Home & office decorations and furniture for inspired spaces.</p>
         </div>
         <div>
           <h4 className="font-medium mb-2">Categories</h4>
           <ul className="text-sm text-muted-foreground space-y-1">
             <li><a className="hover:text-foreground" href="/category/arts">Arts</a></li>
-            <li><a className="hover:text-foreground" href="/category/electronics">Electronics</a></li>
+            <li><a className="hover:text-foreground" href="/category/decorations">Decorations</a></li>
             <li><a className="hover:text-foreground" href="/category/furniture">Furniture</a></li>
-            <li><a className="hover:text-foreground" href="/category/crops">Crops</a></li>
           </ul>
         </div>
         <div>
