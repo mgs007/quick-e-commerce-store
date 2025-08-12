@@ -46,7 +46,7 @@ const Index = () => {
       </section>
 
       {/* Trending */}
-      <section className="max-w-7xl mx-auto px-4 py-8">
+      <section id="trending" className="max-w-7xl mx-auto px-4 py-8">
         <h2 className="text-xl font-semibold mb-4">Trending Now</h2>
         <ProductGrid products={trending} />
       </section>

@@ -1,24 +1,61 @@
 import { Helmet } from "react-helmet-async";
 import SiteLayout from "@/components/layout/SiteLayout";
 import { useEffect, useState } from "react";
-import { listOrders, markOrderProcessed } from "@/services/orderService";
-import { addProduct, getAllProducts } from "@/services/productService";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { SITE } from "@/config/site";
+
+interface OrderRow {
+  id: string;
+  product_name: string;
+  product_price: number;
+  customer_name: string;
+  phone: string;
+  location: string | null;
+  preferred_time: string | null;
+  status: string;
+  created_at: string;
+}
 
 const Dashboard = () => {
   const [authed, setAuthed] = useState(false);
-  const [orders, setOrders] = useState(listOrders());
+  const [orders, setOrders] = useState<OrderRow[]>([]);
 
-  // Product form
+  // Product form (local add remains for now)
   const [name, setName] = useState("");
   const [price, setPrice] = useState<number | "">("");
   const [category, setCategory] = useState("decorations");
   const [description, setDescription] = useState("");
 
   useEffect(() => {
-    setAuthed(localStorage.getItem("om_admin_authed") === "1");
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      const email = session?.user?.email ?? null;
+      const isAdmin = email === SITE.adminEmail;
+      setAuthed(!!isAdmin);
+      if (isAdmin) fetchOrders(); else setOrders([]);
+    });
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      const email = session?.user?.email ?? null;
+      const isAdmin = email === SITE.adminEmail;
+      setAuthed(!!isAdmin);
+      if (isAdmin) fetchOrders();
+    });
+    return () => subscription.unsubscribe();
   }, []);
+
+  async function fetchOrders() {
+    const { data, error } = await supabase
+      .from("orders")
+      .select("id, product_name, product_price, customer_name, phone, location, preferred_time, status, created_at")
+      .order("created_at", { ascending: false });
+    if (!error && data) setOrders(data as OrderRow[]);
+  }
+
+  async function markProcessed(id: string) {
+    const { error } = await supabase.from("orders").update({ status: "processed" }).eq("id", id);
+    if (!error) fetchOrders();
+  }
 
   if (!authed)
     return (
@@ -47,15 +84,15 @@ const Dashboard = () => {
             {orders.map((o) => (
               <div key={o.id} className="border rounded-lg p-4 flex items-center justify-between">
                 <div>
-                  <div className="font-medium">{o.productName} – ${o.productPrice.toFixed(2)}</div>
-                  <div className="text-sm text-muted-foreground">{[o.customerName, o.phone, o.location].filter(Boolean).join(' · ')}</div>
-                  {o.preferredTime && (
-                    <div className="text-xs text-muted-foreground">Preferred: {o.preferredTime}</div>
+                  <div className="font-medium">{o.product_name} – ${o.product_price.toFixed(2)}</div>
+                  <div className="text-sm text-muted-foreground">{[o.customer_name, o.phone, o.location ?? undefined].filter(Boolean).join(' · ')}</div>
+                  {o.preferred_time && (
+                    <div className="text-xs text-muted-foreground">Preferred: {o.preferred_time}</div>
                   )}
                   <div className="text-xs mt-1">Status: {o.status}</div>
                 </div>
                 {o.status !== "processed" && (
-                  <Button onClick={() => { markOrderProcessed(o.id); setOrders(listOrders()); }}>Mark processed</Button>
+                  <Button onClick={() => markProcessed(o.id)}>Mark processed</Button>
                 )}
               </div>
             ))}
@@ -69,17 +106,8 @@ const Dashboard = () => {
             onSubmit={(e) => {
               e.preventDefault();
               if (!name || price === "") return;
-              addProduct({
-                id: `custom-${Date.now()}`,
-                name,
-                slug: name.toLowerCase().replace(/\s+/g, "-"),
-                price: Number(price),
-                description: description || "",
-                images: ["/placeholder.svg"],
-                category: category as any,
-              });
-              setName(""); setPrice(""); setDescription("");
-              alert("Product added (local only).");
+              // Local placeholder until product management is wired to Supabase
+              alert("Product management via Supabase coming soon.");
             }}
           >
             <Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
@@ -88,7 +116,7 @@ const Dashboard = () => {
             <Input placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
             <div className="md:col-span-2"><Button type="submit">Save Product</Button></div>
           </form>
-          <p className="text-xs text-muted-foreground mt-2">Note: Local-only storage for now. Connect Supabase to persist and manage products properly.</p>
+          <p className="text-xs text-muted-foreground mt-2">Note: Use the database to manage products. Public can read products; only admin can modify.</p>
         </div>
       </section>
     </SiteLayout>

@@ -69,5 +69,18 @@ export function markOrderProcessed(id: string) {
   if (idx >= 0) {
     current[idx].status = "processed";
     writeOrders(current);
+    // Best-effort: also update in Supabase by matching created_at and phone
+    (async () => {
+      try {
+        const { supabase } = await import("@/integrations/supabase/client");
+        await supabase
+          .from("orders")
+          .update({ status: "processed" })
+          .eq("phone", current[idx].phone)
+          .eq("created_at", current[idx].createdAt);
+      } catch (e) {
+        // ignore
+      }
+    })();
   }
 }
