@@ -5,24 +5,56 @@ import { getProductById } from "@/services/productService";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { createOrder } from "@/services/orderService";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
+import { Product } from "@/data/products";
 
 const OrderPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const product = id ? getProductById(id) : undefined;
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [location, setLocation] = useState("");
   const [time, setTime] = useState("");
 
-  if (!product) return (
-    <SiteLayout>
-      <section className="max-w-7xl mx-auto px-4 py-10"><p>Product not found.</p></section>
-    </SiteLayout>
-  );
+  useEffect(() => {
+    const fetchProduct = async () => {
+      if (!id) return;
+      try {
+        const data = await getProductById(id);
+        setProduct(data || null);
+      } catch (error) {
+        console.error('Error fetching product:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchProduct();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <SiteLayout>
+        <section className="max-w-7xl mx-auto px-4 py-10">
+          <div className="text-center">Loading...</div>
+        </section>
+      </SiteLayout>
+    );
+  }
+
+  if (!product) {
+    return (
+      <SiteLayout>
+        <section className="max-w-7xl mx-auto px-4 py-10">
+          <p>Product not found.</p>
+        </section>
+      </SiteLayout>
+    );
+  }
 
   return (
     <SiteLayout>

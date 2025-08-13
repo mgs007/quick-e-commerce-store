@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { SITE } from "@/config/site";
+import ProductList from "@/components/admin/ProductList";
 
 interface OrderRow {
   id: string;
@@ -22,11 +23,6 @@ const Dashboard = () => {
   const [authed, setAuthed] = useState(false);
   const [orders, setOrders] = useState<OrderRow[]>([]);
 
-  // Product form (local add remains for now)
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState<number | "">("");
-  const [category, setCategory] = useState("decorations");
-  const [description, setDescription] = useState("");
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -100,23 +96,7 @@ const Dashboard = () => {
         </div>
 
         <div>
-          <h2 className="text-xl font-semibold mb-3">Add Product</h2>
-          <form
-            className="grid md:grid-cols-2 gap-3 border rounded-lg p-4"
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (!name || price === "") return;
-              // Local placeholder until product management is wired to Supabase
-              alert("Product management via Supabase coming soon.");
-            }}
-          >
-            <Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
-            <Input placeholder="Price" type="number" min="0" value={price} onChange={(e) => setPrice(e.target.value === '' ? '' : Number(e.target.value))} required />
-            <Input placeholder="Category (arts, decorations, furniture)" value={category} onChange={(e) => setCategory(e.target.value)} />
-            <Input placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
-            <div className="md:col-span-2"><Button type="submit">Save Product</Button></div>
-          </form>
-          <p className="text-xs text-muted-foreground mt-2">Note: Use the database to manage products. Public can read products; only admin can modify.</p>
+          <ProductList />
         </div>
       </section>
     </SiteLayout>

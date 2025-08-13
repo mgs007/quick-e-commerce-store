@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import SiteLayout from "@/components/layout/SiteLayout";
 import { Button } from "@/components/ui/button";
@@ -7,10 +8,31 @@ import NewsletterForm from "@/components/store/NewsletterForm";
 import { getTrending, getPopular } from "@/services/productService";
 import { Link } from "react-router-dom";
 import StoreDealsCarousel from "@/components/store/StoreDealsCarousel";
+import { Product } from "@/data/products";
 
 const Index = () => {
-  const trending = getTrending();
-  const popular = getPopular();
+  const [trending, setTrending] = useState<Product[]>([]);
+  const [popular, setPopular] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const [trendingData, popularData] = await Promise.all([
+          getTrending(),
+          getPopular()
+        ]);
+        setTrending(trendingData);
+        setPopular(popularData);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchProducts();
+  }, []);
 
   return (
     <SiteLayout>
@@ -48,11 +70,15 @@ const Index = () => {
       {/* Trending */}
       <section id="trending" className="max-w-7xl mx-auto px-4 py-8">
         <h2 className="text-xl font-semibold mb-4">Trending Now</h2>
-        <ProductGrid products={trending} />
+        {loading ? (
+          <div className="text-center py-8">Loading...</div>
+        ) : (
+          <ProductGrid products={trending} />
+        )}
       </section>
 
       {/* Popular */}
-      {popular.length > 0 && (
+      {!loading && popular.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 py-8">
           <h2 className="text-xl font-semibold mb-4">Popular Picks</h2>
           <ProductGrid products={popular} />

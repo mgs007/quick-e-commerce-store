@@ -1,60 +1,124 @@
-import { defaultProducts, Product, Category } from "@/data/products";
+import { Product, Category } from "@/data/products";
+import { supabase } from "@/integrations/supabase/client";
 
-const LS_KEY = "om_products";
+// Cache for better performance
+let productsCache: Product[] | null = null;
+let lastFetch = 0;
+const CACHE_DURATION = 30000; // 30 seconds
 
-function readCustom(): Product[] {
-  const raw = localStorage.getItem(LS_KEY);
-  if (!raw) return [];
-  try {
-    const parsed = JSON.parse(raw) as Product[];
-    return parsed;
-  } catch {
-    return [];
+async function fetchFromSupabase(): Promise<Product[]> {
+  const now = Date.now();
+  if (productsCache && (now - lastFetch) < CACHE_DURATION) {
+    return productsCache;
   }
-}
 
-function writeCustom(products: Product[]) {
-  localStorage.setItem(LS_KEY, JSON.stringify(products));
-}
+  const { data, error } = await supabase
+    .from('products')
+    .select('*')
+    .order('created_at', { ascending: false });
 
-export function getAllProducts(): Product[] {
-  // Merge defaults with custom-added products
-  const custom = readCustom();
-  // Prevent duplicates by id; prioritize custom edits
-  const byId = new Map<string, Product>();
-  [...defaultProducts, ...custom].forEach((p) => byId.set(p.id, p));
-  return Array.from(byId.values());
-}
-
-export function getProductsByCategory(category: Category): Product[] {
-  return getAllProducts().filter((p) => p.category === category);
-}
-
-export function getTrending(): Product[] {
-  return getAllProducts().filter((p) => p.trending);
-}
-
-export function getPopular(): Product[] {
-  return getAllProducts().filter((p) => p.popular);
-}
-
-export function getProductById(id: string): Product | undefined {
-  return getAllProducts().find((p) => p.id === id);
-}
-
-export function addProduct(product: Product) {
-  const custom = readCustom();
-  custom.push(product);
-  writeCustom(custom);
-}
-
-export function updateProduct(updated: Product) {
-  const custom = readCustom();
-  const idx = custom.findIndex((p) => p.id === updated.id);
-  if (idx >= 0) {
-    custom[idx] = updated;
-  } else {
-    custom.push(updated);
+  if (error) {
+    console.error('Error fetching products:', error);
+    return productsCache || [];
   }
-  writeCustom(custom);
+
+  productsCache = data || [];
+  lastFetch = now;
+  return productsCache;
+}
+
+function clearCache() {
+  productsCache = null;
+  lastFetch = 0;
+}
+
+export async function getAllProducts(): Promise<Product[]> {
+  return await fetchFromSupabase();
+}
+
+export async function getProductsByCategory(category: Category): Promise<Product[]> {
+  const products = await fetchFromSupabase();
+  return products.filter((p) => p.category === category);
+}
+
+export async function getTrending(): Promise<Product[]> {
+  const products = await fetchFromSupabase();
+  return products.filter((p) => p.trending);
+}
+
+export async function getPopular(): Promise<Product[]> {
+  const products = await fetchFromSupabase();
+  return products.filter((p) => p.popular);
+}
+
+export async function getProductById(id: string): Promise<Product | undefined> {
+  const products = await fetchFromSupabase();
+  return products.find((p) => p.id === id);
+}
+
+export async function addProduct(product: Omit<Product, 'id' | 'created_at' | 'updated_at'>): Promise<Product | null> {
+  const { data, error } = await supabase
+    .from('products')
+    .insert([product])
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error adding product:', error);
+    return null;
+  }
+
+  clearCache();
+  return data;
+}
+
+export async function updateProduct(id: string, updates: Partial<Omit<Product, 'id' | 'created_at' | 'updated_at'>>): Promise<Product | null> {
+  const { data, error } = await supabase
+    .from('products')
+    .update(updates)
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error updating product:', error);
+    return null;
+  }
+
+  clearCache();
+  return data;
+}
+
+export async function deleteProduct(id: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('products')
+    .delete()
+    .eq('id', id);
+
+  if (error) {
+    console.error('Error deleting product:', error);
+    return false;
+  }
+
+  clearCache();
+  return true;
+}
+
+export async function uploadProductImage(file: File): Promise<string | null> {
+  const fileName = `${Date.now()}-${file.name}`;
+  
+  const { data, error } = await supabase.storage
+    .from('product-images')
+    .upload(fileName, file);
+
+  if (error) {
+    console.error('Error uploading image:', error);
+    return null;
+  }
+
+  const { data: { publicUrl } } = supabase.storage
+    .from('product-images')
+    .getPublicUrl(data.path);
+
+  return publicUrl;
 }

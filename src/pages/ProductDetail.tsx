@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import SiteLayout from "@/components/layout/SiteLayout";
 import { useParams, Link, useNavigate } from "react-router-dom";
@@ -5,22 +6,62 @@ import { getAllProducts, getProductById } from "@/services/productService";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/context/StoreContext";
 import ProductGrid from "@/components/store/ProductGrid";
+import { Product } from "@/data/products";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const product = id ? getProductById(id) : undefined;
+  const [product, setProduct] = useState<Product | null>(null);
+  const [recommended, setRecommended] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { addToCart } = useStore();
 
-  if (!product) return (
-    <SiteLayout>
-      <section className="max-w-7xl mx-auto px-4 py-10">
-        <p>Product not found.</p>
-      </section>
-    </SiteLayout>
-  );
+  useEffect(() => {
+    const fetchProduct = async () => {
+      if (!id) return;
+      try {
+        const [productData, allProducts] = await Promise.all([
+          getProductById(id),
+          getAllProducts()
+        ]);
+        
+        setProduct(productData || null);
+        
+        if (productData) {
+          const relatedProducts = allProducts.filter(
+            (p) => p.category === productData.category && p.id !== productData.id
+          ).slice(0, 4);
+          setRecommended(relatedProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching product:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchProduct();
+  }, [id]);
 
-  const recommended = getAllProducts().filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4);
+  if (loading) {
+    return (
+      <SiteLayout>
+        <section className="max-w-7xl mx-auto px-4 py-10">
+          <div className="text-center">Loading...</div>
+        </section>
+      </SiteLayout>
+    );
+  }
+
+  if (!product) {
+    return (
+      <SiteLayout>
+        <section className="max-w-7xl mx-auto px-4 py-10">
+          <p>Product not found.</p>
+        </section>
+      </SiteLayout>
+    );
+  }
 
   return (
     <SiteLayout>
