@@ -14,7 +14,98 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      orders: {
+        Row: {
+          created_at: string
+          customer_name: string
+          id: string
+          location: string | null
+          phone: string
+          preferred_time: string | null
+          product_id: string | null
+          product_name: string
+          product_price: number
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          customer_name: string
+          id?: string
+          location?: string | null
+          phone: string
+          preferred_time?: string | null
+          product_id?: string | null
+          product_name: string
+          product_price: number
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          customer_name?: string
+          id?: string
+          location?: string | null
+          phone?: string
+          preferred_time?: string | null
+          product_id?: string | null
+          product_name?: string
+          product_price?: number
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_orders_product"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          images: string[]
+          name: string
+          popular: boolean
+          price: number
+          slug: string
+          trending: boolean
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          images?: string[]
+          name: string
+          popular?: boolean
+          price: number
+          slug: string
+          trending?: boolean
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          images?: string[]
+          name?: string
+          popular?: boolean
+          price?: number
+          slug?: string
+          trending?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
