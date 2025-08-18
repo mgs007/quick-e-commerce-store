@@ -15,35 +15,36 @@ const ProductCard = ({ product }: { product: Product }) => {
         <img
           src={product.images[0]}
           alt={`${product.name} product image`}
-          className="w-full h-48 object-cover rounded-t-lg"
+          className="w-full h-32 sm:h-40 object-cover rounded-t-lg"
           loading="lazy"
         />
       </Link>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base line-clamp-1">{product.name}</CardTitle>
+      <CardHeader className="p-3 pb-2">
+        <CardTitle className="text-sm leading-tight line-clamp-2">{product.name}</CardTitle>
       </CardHeader>
-      <CardContent className="flex items-center justify-between">
-        <div>
+      <CardContent className="p-3">
+        <div className="flex items-center justify-between mb-2">
           <span className="text-lg font-semibold">${product.price.toFixed(2)}</span>
-        </div>
-        <div className="flex items-center gap-2">
           <Button
             variant="secondary"
             size="icon"
+            className="h-8 w-8"
             aria-label="Add to Favorites"
             onClick={() => toggleFavorite(product.id)}
           >
-            <Heart className={`h-4 w-4 ${isFav ? 'fill-current' : ''}`} />
-          </Button>
-          <Button
-            onClick={() => {
-              addToCart(product.id, 1);
-              toast({ title: "Added to cart", description: product.name });
-            }}
-          >
-            <ShoppingCart className="h-4 w-4 mr-2" /> Add
+            <Heart className={`h-3 w-3 ${isFav ? 'fill-current' : ''}`} />
           </Button>
         </div>
+        <Button
+          className="w-full"
+          size="sm"
+          onClick={() => {
+            addToCart(product.id, 1);
+            toast({ title: "Added to cart", description: product.name });
+          }}
+        >
+          <ShoppingCart className="h-3 w-3 mr-1" /> Add to Cart
+        </Button>
       </CardContent>
     </Card>
   );

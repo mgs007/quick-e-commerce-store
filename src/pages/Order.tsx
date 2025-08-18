@@ -65,9 +65,9 @@ const OrderPage = () => {
       </Helmet>
 
       <section className="max-w-3xl mx-auto px-4 py-10">
-        <h1 className="text-2xl font-semibold mb-2">Order Form</h1>
+        <h1 className="text-xl sm:text-2xl font-semibold mb-2">Order Form</h1>
         <p className="text-sm text-muted-foreground mb-6">Quick and easy. We'll contact you to confirm.</p>
-        <div className="border rounded-lg p-6 grid gap-4">
+        <div className="border rounded-lg p-4 sm:p-6 grid gap-4">
           <div>
             <div className="text-sm text-muted-foreground">Product</div>
             <div className="font-medium">{product.name} – ${product.price.toFixed(2)}</div>
@@ -93,9 +93,9 @@ const OrderPage = () => {
             <Input placeholder="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} required />
             <Input placeholder="Location (optional)" value={location} onChange={(e) => setLocation(e.target.value)} />
             <Input placeholder="Preferred delivery time (optional)" value={time} onChange={(e) => setTime(e.target.value)} />
-            <div className="flex gap-3">
-              <Button type="submit">Submit Order</Button>
-              <Button type="button" variant="secondary" onClick={() => navigate(-1)}>Cancel</Button>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button type="submit" className="flex-1">Submit Order</Button>
+              <Button type="button" variant="secondary" className="flex-1" onClick={() => navigate(-1)}>Cancel</Button>
             </div>
           </form>
         </div>

@@ -107,7 +107,7 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="name">Product Name</Label>
               <Input
@@ -128,7 +128,7 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="price">Price ($)</Label>
               <Input
@@ -211,7 +211,7 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
             </div>
             
             {images.length > 0 && (
-              <div className="grid grid-cols-3 gap-2 mt-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-4">
                 {images.map((image, index) => (
                   <div key={index} className="relative">
                     <img
@@ -234,11 +234,11 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
             )}
           </div>
 
-          <div className="flex gap-2 pt-4">
-            <Button type="submit" disabled={saving || uploading}>
+          <div className="flex flex-col sm:flex-row gap-2 pt-4">
+            <Button type="submit" disabled={saving || uploading} className="flex-1">
               {saving ? "Saving..." : product ? "Update Product" : "Add Product"}
             </Button>
-            <Button type="button" variant="outline" onClick={onCancel}>
+            <Button type="button" variant="outline" onClick={onCancel} className="flex-1">
               Cancel
             </Button>
           </div>

@@ -12,6 +12,7 @@ const Login = () => {
   const [email, setEmail] = useState(SITE.adminEmail);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
   const navigate = useNavigate();
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -25,6 +26,25 @@ const Login = () => {
     }
     toast({ title: "Welcome", description: "Logged in successfully." });
     navigate("/admin");
+  };
+
+  const handlePasswordReset = async () => {
+    if (!email) {
+      toast({ title: "Error", description: "Please enter your email address" });
+      return;
+    }
+    
+    setResetLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/admin/login?reset=true`
+    });
+    setResetLoading(false);
+    
+    if (error) {
+      toast({ title: "Error", description: error.message });
+    } else {
+      toast({ title: "Check your email", description: "Password reset link sent!" });
+    }
   };
 
   return (
@@ -42,6 +62,18 @@ const Login = () => {
           <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           <Button type="submit" disabled={loading}>{loading ? "Signing in..." : "Login"}</Button>
         </form>
+        
+        <div className="mt-4 text-center">
+          <button
+            type="button"
+            onClick={handlePasswordReset}
+            disabled={resetLoading}
+            className="text-sm text-primary hover:underline disabled:opacity-50"
+          >
+            {resetLoading ? "Sending..." : "Forgot password?"}
+          </button>
+        </div>
+        
         <p className="text-xs text-muted-foreground mt-2">Use your admin credentials. Access is restricted to {SITE.adminEmail}.</p>
       </section>
     </SiteLayout>
