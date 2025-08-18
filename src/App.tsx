@@ -14,6 +14,7 @@ import Dashboard from "./pages/admin/Dashboard";
 import CartPage from "./pages/Cart";
 import FavoritesPage from "./pages/Favorites";
 import { StoreProvider } from "./context/StoreContext";
+import { LanguageProvider } from "./context/LanguageContext";
 
 const queryClient = new QueryClient();
 
@@ -21,10 +22,11 @@ const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <StoreProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
+        <LanguageProvider>
+          <StoreProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/category/:slug" element={<CategoryPage />} />
@@ -39,6 +41,7 @@ const App = () => (
             </Routes>
           </BrowserRouter>
         </StoreProvider>
+        </LanguageProvider>
       </TooltipProvider>
     </QueryClientProvider>
   </HelmetProvider>

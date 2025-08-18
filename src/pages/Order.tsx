@@ -7,9 +7,11 @@ import { Button } from "@/components/ui/button";
 import { createOrder } from "@/services/orderService";
 import { useState, useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
+import { useLanguage } from "@/context/LanguageContext";
 import { Product } from "@/data/products";
 
 const OrderPage = () => {
+  const { t } = useLanguage();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [product, setProduct] = useState<Product | null>(null);
@@ -40,7 +42,7 @@ const OrderPage = () => {
     return (
       <SiteLayout>
         <section className="max-w-7xl mx-auto px-4 py-10">
-          <div className="text-center">Loading...</div>
+          <div className="text-center">{t('common.loading')}</div>
         </section>
       </SiteLayout>
     );
@@ -50,7 +52,7 @@ const OrderPage = () => {
     return (
       <SiteLayout>
         <section className="max-w-7xl mx-auto px-4 py-10">
-          <p>Product not found.</p>
+          <p>{t('product.not_found')}</p>
         </section>
       </SiteLayout>
     );
@@ -60,17 +62,17 @@ const OrderPage = () => {
     <SiteLayout>
       <Helmet>
         <title>{`Order – ${product.name} | RangoDeco`}</title>
-        <meta name="description" content={`Order ${product.name} for $${product.price}. No login required.`} />
+        <meta name="description" content={`Order ${product.name} for TSH ${product.price}. No login required.`} />
         <link rel="canonical" href={`/order/${product.id}`} />
       </Helmet>
 
       <section className="max-w-3xl mx-auto px-4 py-10">
-        <h1 className="text-xl sm:text-2xl font-semibold mb-2">Order Form</h1>
-        <p className="text-sm text-muted-foreground mb-6">Quick and easy. We'll contact you to confirm.</p>
+        <h1 className="text-xl sm:text-2xl font-semibold mb-2">{t('order.title')}</h1>
+        <p className="text-sm text-muted-foreground mb-6">{t('order.subtitle')}</p>
         <div className="border rounded-lg p-4 sm:p-6 grid gap-4">
           <div>
-            <div className="text-sm text-muted-foreground">Product</div>
-            <div className="font-medium">{product.name} – ${product.price.toFixed(2)}</div>
+            <div className="text-sm text-muted-foreground">{t('order.product')}</div>
+            <div className="font-medium">{product.name} – {t('common.price')} {product.price.toLocaleString()}</div>
           </div>
           <form
             className="grid gap-4"
@@ -85,17 +87,17 @@ const OrderPage = () => {
                 location: location || undefined,
                 preferredTime: time || undefined,
               });
-              toast({ title: "Order placed!", description: "We'll reach out shortly." });
+              toast({ title: t('order.success'), description: t('order.success_desc') });
               navigate("/");
             }}
           >
-            <Input placeholder="Full Name" value={name} onChange={(e) => setName(e.target.value)} required />
-            <Input placeholder="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} required />
-            <Input placeholder="Location (optional)" value={location} onChange={(e) => setLocation(e.target.value)} />
-            <Input placeholder="Preferred delivery time (optional)" value={time} onChange={(e) => setTime(e.target.value)} />
+            <Input placeholder={t('order.full_name')} value={name} onChange={(e) => setName(e.target.value)} required />
+            <Input placeholder={t('order.phone')} value={phone} onChange={(e) => setPhone(e.target.value)} required />
+            <Input placeholder={t('order.location')} value={location} onChange={(e) => setLocation(e.target.value)} />
+            <Input placeholder={t('order.preferred_time')} value={time} onChange={(e) => setTime(e.target.value)} />
             <div className="flex flex-col sm:flex-row gap-3">
-              <Button type="submit" className="flex-1">Submit Order</Button>
-              <Button type="button" variant="secondary" className="flex-1" onClick={() => navigate(-1)}>Cancel</Button>
+              <Button type="submit" className="flex-1">{t('order.submit')}</Button>
+              <Button type="button" variant="secondary" className="flex-1" onClick={() => navigate(-1)}>{t('common.cancel')}</Button>
             </div>
           </form>
         </div>

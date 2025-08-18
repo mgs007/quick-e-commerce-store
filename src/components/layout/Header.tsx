@@ -1,11 +1,14 @@
 import { NavLink } from "react-router-dom";
 import { ShoppingCart, Heart } from "lucide-react";
 import { useStore } from "@/context/StoreContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { Input } from "@/components/ui/input";
 import { SITE } from "@/config/site";
+import LanguageToggle from "./LanguageToggle";
 
 const Header = () => {
   const { cartCount } = useStore();
+  const { t } = useLanguage();
 
   const navCls = ({ isActive }: { isActive: boolean }) =>
     isActive ? "text-primary" : "text-foreground/70 hover:text-foreground";
@@ -23,6 +26,7 @@ const Header = () => {
           <NavLink to="/category/furniture" className={navCls}>Furniture</NavLink>
         </nav>
         <div className="flex items-center gap-3">
+          <LanguageToggle />
           <Input placeholder="Search products" className="hidden md:block w-56" />
           <NavLink to="/favorites" className="relative p-2 rounded-md hover:bg-secondary">
             <Heart className="h-5 w-5" />

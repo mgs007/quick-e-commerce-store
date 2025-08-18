@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { SITE } from "@/config/site";
+import { useLanguage } from "@/context/LanguageContext";
 import ProductList from "@/components/admin/ProductList";
 
 interface OrderRow {
@@ -20,6 +21,7 @@ interface OrderRow {
 }
 
 const Dashboard = () => {
+  const { t } = useLanguage();
   const [authed, setAuthed] = useState(false);
   const [orders, setOrders] = useState<OrderRow[]>([]);
 
@@ -57,7 +59,7 @@ const Dashboard = () => {
     return (
       <SiteLayout>
         <section className="max-w-7xl mx-auto px-4 py-10">
-          <p>Unauthorized. Please <a className="underline" href="/admin/login">login</a>.</p>
+          <p>{t('admin.unauthorized')} <a className="underline" href="/admin/login">{t('admin.login')}</a>.</p>
         </section>
       </SiteLayout>
     );
@@ -72,23 +74,23 @@ const Dashboard = () => {
 
       <section className="max-w-7xl mx-auto px-4 py-10 grid gap-10">
         <div>
-          <h2 className="text-xl font-semibold mb-3">Incoming Orders</h2>
+          <h2 className="text-xl font-semibold mb-3">{t('admin.orders')}</h2>
           <div className="space-y-3">
             {orders.length === 0 && (
-              <p className="text-sm text-muted-foreground">No orders yet.</p>
+              <p className="text-sm text-muted-foreground">{t('admin.no_orders')}</p>
             )}
             {orders.map((o) => (
               <div key={o.id} className="border rounded-lg p-4 flex items-center justify-between">
                 <div>
-                  <div className="font-medium">{o.product_name} – ${o.product_price.toFixed(2)}</div>
+                  <div className="font-medium">{o.product_name} – {t('common.price')} {o.product_price.toLocaleString()}</div>
                   <div className="text-sm text-muted-foreground">{[o.customer_name, o.phone, o.location ?? undefined].filter(Boolean).join(' · ')}</div>
                   {o.preferred_time && (
                     <div className="text-xs text-muted-foreground">Preferred: {o.preferred_time}</div>
                   )}
-                  <div className="text-xs mt-1">Status: {o.status}</div>
+                  <div className="text-xs mt-1">{t('common.status')}: {o.status === 'processed' ? t('common.processed') : t('common.unprocessed')}</div>
                 </div>
                 {o.status !== "processed" && (
-                  <Button onClick={() => markProcessed(o.id)}>Mark processed</Button>
+                  <Button onClick={() => markProcessed(o.id)}>{t('admin.mark_processed')}</Button>
                 )}
               </div>
             ))}

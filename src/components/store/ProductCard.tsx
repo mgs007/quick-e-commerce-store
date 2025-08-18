@@ -4,10 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Heart, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useStore } from "@/context/StoreContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { toast } from "@/hooks/use-toast";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const { addToCart, toggleFavorite, favorites } = useStore();
+  const { t } = useLanguage();
   const isFav = favorites.has(product.id);
   return (
     <Card className="hover-scale shadow-elevate">
@@ -24,7 +26,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       </CardHeader>
       <CardContent className="p-3">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-lg font-semibold">${product.price.toFixed(2)}</span>
+          <span className="text-lg font-semibold">{t('common.price')} {product.price.toLocaleString()}</span>
           <Button
             variant="secondary"
             size="icon"
@@ -43,7 +45,7 @@ const ProductCard = ({ product }: { product: Product }) => {
             toast({ title: "Added to cart", description: product.name });
           }}
         >
-          <ShoppingCart className="h-3 w-3 mr-1" /> Add to Cart
+          <ShoppingCart className="h-3 w-3 mr-1" /> {t('common.add_to_cart')}
         </Button>
       </CardContent>
     </Card>

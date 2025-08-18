@@ -8,9 +8,11 @@ import NewsletterForm from "@/components/store/NewsletterForm";
 import { getTrending, getPopular } from "@/services/productService";
 import { Link } from "react-router-dom";
 import StoreDealsCarousel from "@/components/store/StoreDealsCarousel";
+import { useLanguage } from "@/context/LanguageContext";
 import { Product } from "@/data/products";
 
 const Index = () => {
+  const { t } = useLanguage();
   const [trending, setTrending] = useState<Product[]>([]);
   const [popular, setPopular] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -69,9 +71,9 @@ const Index = () => {
 
       {/* Trending */}
       <section id="trending" className="max-w-7xl mx-auto px-4 py-8">
-        <h2 className="text-xl font-semibold mb-4">Trending Now</h2>
+        <h2 className="text-xl font-semibold mb-4">{t('home.trending')}</h2>
         {loading ? (
-          <div className="text-center py-8">Loading...</div>
+          <div className="text-center py-8">{t('common.loading')}</div>
         ) : (
           <ProductGrid products={trending} />
         )}
