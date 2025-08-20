@@ -1,0 +1,79 @@
+Project structure (actual)
+
+- .git/
+- .github/
+- .gitignore
+- LICENSE
+- package.json
+- bun.lockb
+- components.json
+- eslint.config.js
+- index.html
+- postcss.config.js
+- public/
+- README.md
+- src/
+  - App.css
+  - App.tsx
+  - assets/
+    - hero-orange.jpg
+  - components/
+    - admin/
+      - ProductForm.tsx
+      - ProductList.tsx
+    - layout/
+      - Footer.tsx
+      - Header.tsx
+      - LanguageToggle.tsx
+      - SiteLayout.tsx
+    - store/
+      - CategoryPills.tsx
+      - NewsletterForm.tsx
+      - ProductCard.tsx
+      - ProductGrid.tsx
+      - StoreDealsCarousel.tsx
+    - ui/
+      - (many UI primitives used by the app; see folder)
+  - config/
+    - site.ts
+  - context/
+    - LanguageContext.tsx
+    - StoreContext.tsx
+  - data/
+    - products.ts
+  - hooks/
+    - use-mobile.tsx
+    - use-toast.ts
+  - integrations/
+    - supabase/
+      - client.ts
+      - types.ts
+  - lib/
+    - utils.ts
+  - main.tsx
+  - pages/
+    - Cart.tsx
+    - Category.tsx
+    - Favorites.tsx
+    - Index.tsx
+    - NotFound.tsx
+    - Order.tsx
+    - ProductDetail.tsx
+    - admin/
+      - Dashboard.tsx
+      - Login.tsx
+  - services/
+    - orderService.ts
+    - productService.ts
+  - index.css
+  - vite-env.d.ts
+- supabase/
+  - config.toml
+  - migrations/
+    - 20250813173745_ed10e118-6aa7-42bc-a876-842f5e6ecfc5.sql
+    - 20250813173819_ff208a5f-4d0c-4bd3-97fa-0e21e1edf7e2.sql
+- tailwind.config.ts
+- tsconfig.app.json
+- tsconfig.json
+- tsconfig.node.json
+- vite.config.ts
