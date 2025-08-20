@@ -3,6 +3,13 @@
 A modern **e-commerce storefront** and **admin dashboard** built with cutting-edge web tooling.  
 Designed for small businesses seeking a fast, scalable, and user-friendly shopping experience.
 
+![Vite](https://img.shields.io/badge/Vite-3e6ceb?style=for-the-badge&logo=vite&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007acc?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![shadcn-ui](https://img.shields.io/badge/shadcn--ui-000000?style=for-the-badge&logo=react&logoColor=white)
+
+
 ---
 
 ## Project Overview
@@ -34,7 +41,7 @@ The **Quick E-Commerce Store** is a fully functional, customizable storefront pa
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/<your-username>/quick-ecommerce-store.git
+git clone https://github.com/mgs007/quick-e-commerce-store.git
 cd quick-ecommerce-store
 ```
 
@@ -84,29 +91,6 @@ npm run preview
 
 ---
 
-## 📂 Project Structure
-
-```
-quick-ecommerce-store/
-├── public/                # Static assets
-├── src/
-│   ├── components/        # Reusable UI components
-│   ├── context/           # React context providers
-│   ├── integrations/
-│   │   └── supabase/      # Supabase client & types
-│   ├── pages/             # Storefront & admin pages
-│   │   └── admin/         # Admin dashboard & auth flows
-│   ├── services/          # API calls & business logic
-│   ├── styles/            # Tailwind CSS config & global styles
-│   ├── lib/               # Utility functions & helpers
-│   └── main.tsx           # App entry point
-├── .env.example           # Example environment variables
-├── package.json
-└── vite.config.ts
-```
-
----
-
 ## 🎨 Brand Identity & Restrictions
 
 This repository contains **customer-owned assets**.
@@ -144,55 +128,4 @@ Contributions are welcome. Fork the repo, create a branch, and open a pull reque
 
 ## 📧 Support
 
-For questions or support: support@quickstore.com
-## Quick E‑Commerce Store
-
-This repository contains the source code for a customer e-commerce storefront built with modern web tooling. The README below focuses on practical usage and constraints for the customer's project assets.
-
-### Project at a glance
-
-- Purpose: Frontend storefront and admin UI for a small e-commerce site.
-- Stack: Vite, TypeScript, React, Tailwind CSS, shadcn-ui components.
-
-### Local setup
-
-1. Clone the repository to your machine.
-2. Install dependencies using the project package manager.
-3. Start the development server.
-
-Typical commands (run from project root):
-
-1) Install dependencies
-
-2) Start dev server
-
-Replace the package manager commands with the ones you use (npm, yarn, pnpm, bun).
-
-### What you can do with this code
-
-- Use, modify, and deploy the source code to run the storefront for the client.
-- Inspect and extend components, pages, and services located under `src/`.
-
-### Brand identity and restrictions
-
-This is customer work. The source code is provided for use by the customer and third parties per the included license. However, the customer's brand identity — including the logo and any named color identities (brand color names) — is reserved and may not be used, reproduced, or claimed by third parties without explicit written permission from the client.
-
-In short: you may use and modify the code, but you may not reuse the logo or present the brand identity (color names and logo) as your own or in third-party products without authorization.
-
-### License (summary)
-
-- The repository includes a project license that permits use, modification, and distribution of the source code for commercial and non-commercial purposes.
-- The license explicitly reserves the client's trademark and brand assets (logo and brand color names). See the `LICENSE` file for full terms.
-
-### Next version
-
-The next planned version will include a payment integration. Implementation details and supported payment providers will be published with that update.
-
-### Where to look in the code
-
-- `src/` — application code (pages, components, contexts, services)
-- `src/integrations/supabase` — Supabase client and types
-- `src/pages/admin` — admin interface and auth flows
-
-If you need additional documentation (API contracts, deployment scripts, or CI configuration), tell me which area to document next.
-- Vite
+For questions or support: kelvinpius818@outlook.com
